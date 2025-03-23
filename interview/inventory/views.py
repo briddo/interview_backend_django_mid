@@ -1,3 +1,5 @@
+from django.utils.dateparse import parse_date
+
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.views import APIView
@@ -11,6 +13,15 @@ from interview.inventory.serializers import InventoryLanguageSerializer, Invento
 class InventoryListAfterDateView(generics.ListAPIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        created_after = self.kwargs.get("created_after", "")
+
+        if created_after:
+            queryset = queryset.filter(created_at__date__gt=parse_date(created_after))
+
+        return queryset
 
 
 class InventoryListCreateView(APIView):
