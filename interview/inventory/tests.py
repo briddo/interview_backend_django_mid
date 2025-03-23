@@ -1,7 +1,6 @@
 from datetime import timedelta
 
 from django.utils.timezone import now
-from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory, APITestCase
 
 from .models import Inventory, InventoryLanguage, InventoryType
