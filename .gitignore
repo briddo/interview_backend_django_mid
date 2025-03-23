@@ -2,6 +2,7 @@
 *.history
 *__pycache__*
 *.vscode
+*.idea
 ANSWER.md
 *.env
 *reset_database.sh
