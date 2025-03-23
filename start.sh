@@ -3,7 +3,7 @@
 echo "Setting up venv..."
 set -e
 VENV_DIR=".venv"
-python3 -m venv "$VENV_DIR"
+python3.11 -m venv "$VENV_DIR"
 source "$VENV_DIR/bin/activate"
 
 echo "Installing requirements..."
