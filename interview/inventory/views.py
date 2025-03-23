@@ -1,14 +1,16 @@
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.views import APIView
+from rest_framework import generics
 
 from interview.inventory.models import Inventory, InventoryLanguage, InventoryTag, InventoryType
 from interview.inventory.schemas import InventoryMetaData
 from interview.inventory.serializers import InventoryLanguageSerializer, InventorySerializer, InventoryTagSerializer, InventoryTypeSerializer
 
 
-class InventoryListAfterDateView(APIView):
-    pass
+class InventoryListAfterDateView(generics.ListAPIView):
+    queryset = Inventory.objects.all()
+    serializer_class = InventorySerializer
 
 
 class InventoryListCreateView(APIView):

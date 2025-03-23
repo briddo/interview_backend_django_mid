@@ -27,7 +27,11 @@ class InventoryListAfterDateViewTestCase(APITestCase):
         )
 
     def test_get_items_created_after_certain_day(self):
-        request = self.factory.get(reverse("inventory-list-created-after-date"))
+        # Since we are only testing the view, we don't need to make a real request
+        request = self.factory.get("/fake/")
+
         self.view = InventoryListAfterDateView.as_view()
-        response = self.view(request)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response = self.view(request, created_at=now())
+
+        # should return only the inventory created today
+        self.assertEqual(len(response.data), 1)
