@@ -7,6 +7,10 @@ from interview.inventory.schemas import InventoryMetaData
 from interview.inventory.serializers import InventoryLanguageSerializer, InventorySerializer, InventoryTagSerializer, InventoryTypeSerializer
 
 
+class InventoryListAfterDateView(APIView):
+    pass
+
+
 class InventoryListCreateView(APIView):
     queryset = Inventory.objects.all()
     serializer_class = InventorySerializer
