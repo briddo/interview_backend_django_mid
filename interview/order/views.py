@@ -16,4 +16,5 @@ class OrderTagListCreateView(generics.ListCreateAPIView):
 
 
 class DeactivateOrderView(generics.UpdateAPIView):
-    pass
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
