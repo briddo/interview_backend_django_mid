@@ -7,3 +7,4 @@ ANSWER.md
 *.env
 *reset_database.sh
 *.venv*
+.DS_Store
