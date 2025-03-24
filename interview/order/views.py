@@ -13,3 +13,8 @@ class OrderListCreateView(generics.ListCreateAPIView):
 class OrderTagListCreateView(generics.ListCreateAPIView):
     queryset = OrderTag.objects.all()
     serializer_class = OrderTagSerializer
+
+
+class DeactivateOrderView(generics.UpdateAPIView):
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
