@@ -1,5 +1,6 @@
 from django.urls import path
 from interview.inventory.views import (
+    InventoryCreatedAfterDateView,
     InventoryLanguageListCreateView,
     InventoryLanguageRetrieveUpdateDestroyView,
     InventoryListCreateView,
@@ -13,6 +14,11 @@ from interview.order.views import OrderListCreateView, OrderTagListCreateView
 
 
 urlpatterns = [
+    path(
+        "created-after-date/",
+        InventoryCreatedAfterDateView.as_view(),
+        name="inventory-created-after-date",
+    ),
     path(
         "<int:id>/",
         InventoryRetrieveUpdateDestroyView.as_view(),
