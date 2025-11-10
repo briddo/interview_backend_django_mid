@@ -1,6 +1,8 @@
+from datetime import datetime
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.views import APIView
+from rest_framework import status
 
 from interview.inventory.models import (
     Inventory,
@@ -231,3 +233,37 @@ class InventoryTypeRetrieveUpdateDestroyView(APIView):
 
     def get_queryset(self, **kwargs):
         return self.queryset.get(**kwargs)
+
+
+class InventoryCreatedAfterDateView(APIView):
+    queryset = Inventory.objects.all()
+    serializer_class = InventorySerializer
+
+    def get(self, request: Request, *args, **kwargs) -> Response:
+        created_after = request.query_params.get("created_after")
+        
+        if not created_after:
+            return Response(
+                {"created_after": "This field is required."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            # Try parsing as date first (YYYY-MM-DD)
+            try:
+                filter_date = datetime.strptime(created_after, "%Y-%m-%d").date()
+                filter_datetime = datetime.combine(filter_date, datetime.min.time())
+            except ValueError:
+                # Try parsing as datetime (YYYY-MM-DDTHH:MM:SS)
+                filter_datetime = datetime.strptime(created_after, "%Y-%m-%dT%H:%M:%S")
+        except ValueError:
+            return Response(
+                {"error": "Invalid date format. Use YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Filter items where created_at is strictly greater than the filter date
+        queryset = self.queryset.filter(created_at__gt=filter_datetime)
+        serializer = self.serializer_class(queryset, many=True)
+        
+        return Response(serializer.data, status=status.HTTP_200_OK)

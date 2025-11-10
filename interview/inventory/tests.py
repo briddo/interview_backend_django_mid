@@ -89,7 +89,7 @@ def inventory_items(db, inventory_type, inventory_language, inventory_tag):
 
 
 @pytest.mark.django_db
-class TestInventoryFilteredByDateView:
+class TestInventoryCreatedAfterDateView:
     """Test cases for the view that lists inventory items created after a certain day."""
     
     def test_list_inventory_items_after_date_returns_filtered_items(
@@ -103,7 +103,7 @@ class TestInventoryFilteredByDateView:
         # Filter date: 3 days before base date (should return item2, item3, item4)
         filter_date = (base_date - timedelta(days=3)).strftime("%Y-%m-%d")
         
-        url = reverse("inventory-filtered-by-date")
+        url = reverse("inventory-created-after-date")
         response = api_client.get(url, {"created_after": filter_date})
         
         assert response.status_code == status.HTTP_200_OK
@@ -122,7 +122,7 @@ class TestInventoryFilteredByDateView:
         from django.urls import reverse
         from rest_framework import status
         
-        url = reverse("inventory-filtered-by-date")
+        url = reverse("inventory-created-after-date")
         response = api_client.get(url)
         
         assert response.status_code == status.HTTP_400_BAD_REQUEST
