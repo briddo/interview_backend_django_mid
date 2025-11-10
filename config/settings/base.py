@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "interview.core",
     "interview.inventory",
     "interview.order",
+    "interview.profiles",
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,12 @@ STATIC_ROOT = "interview/static"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Custom User Model
+AUTH_USER_MODEL = "profiles.UserProfile"
+
+# Authentication backends
+AUTHENTICATION_BACKENDS = [
+    "interview.profiles.backends.EmailBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
